@@ -54,6 +54,7 @@
     </Compile>
     <Compile Include="Graphics\BufferedScreenController.cs" />
     <Compile Include="Graphics\DirectBitmap.cs" />
+    <Compile Include="Graphics\FrameRateCounter.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Game.resx">

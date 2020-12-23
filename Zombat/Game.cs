@@ -13,26 +13,32 @@ namespace Zombat
 {
     public partial class Game : Form
     {
-        private BufferedScreenController screenController;
-        private DirectBitmap bitmap;
-        private Timer timer;
+        private readonly BufferedScreenController _screenController;
+        private readonly DirectBitmap _bitmap;
+        private readonly FrameRateCounter _frameCounter;
+        private readonly Timer _timer;
         
         public Game()
         {
             InitializeComponent();
-            screenController = new BufferedScreenController(pnlGame, Color.White);
-            bitmap = new DirectBitmap(pnlGame.Width, pnlGame.Height);
-            timer = new Timer();
-            timer.Interval = 10;
-            timer.Tick += Redraw;
-            timer.Start();
+            _screenController = new BufferedScreenController(pnlGame, Color.White);
+            _bitmap = new DirectBitmap(pnlGame.Width, pnlGame.Height);
+            _frameCounter = new FrameRateCounter();
+
+            _timer = new Timer();
+            _timer.Interval = 10;
+            _timer.Tick += Redraw;
+            _timer.Start();
         }
 
         private void Redraw(object sender, EventArgs e)
         {
-            bitmap.Clear();
-            bitmap.SetVLine(50, 20, 100, MakeArgb(255, 120, 250, 100));
-            screenController.Redraw(bitmap.Bitmap);
+            _bitmap.Clear();
+            _bitmap.SetVLine(50, 20, 100, MakeArgb(255, 120, 250, 100));
+            _screenController.Redraw(_bitmap.Bitmap);
+            
+            _frameCounter.FrameDrawn();
+            Text = $@"Zombat - {_frameCounter.Framerate} fps";
         }
 
         private static int MakeArgb(byte alpha, byte red, byte green, byte blue) => (int)((red << 16 | green << 8 | blue | alpha << 24) & uint.MaxValue);
