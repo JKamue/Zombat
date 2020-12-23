@@ -43,6 +43,15 @@ namespace Zombat.Graphics
             int index = x + (y * Width);
             SetPixel(index, color);
         }
+
+        public void SetVLine(int x, int start, int length, int color)
+        {
+            for (var y = start; y < length; y++)
+            {
+                SetPixel(x,y,color);
+            }
+        }
+        
         public void SetPixel(int index, int color)
         {
             Bits[index] = color;
