@@ -11,14 +11,14 @@ using Zombat.Graphics;
 
 namespace Zombat
 {
-    public partial class Game : Form
+    public partial class GameForm : Form
     {
         private readonly BufferedScreenController _screenController;
         private readonly DirectBitmap _bitmap;
         private readonly FrameRateCounter _frameCounter;
         private readonly Timer _timer;
         
-        public Game()
+        public GameForm()
         {
             InitializeComponent();
             _screenController = new BufferedScreenController(pnlGame, Color.White);

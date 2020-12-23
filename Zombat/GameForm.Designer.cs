@@ -1,7 +1,7 @@
 ﻿
 namespace Zombat
 {
-    partial class Game
+    partial class GameForm
     {
         /// <summary>
         /// Required designer variable.

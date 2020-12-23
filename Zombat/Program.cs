@@ -16,7 +16,7 @@ namespace Zombat
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Game());
+            Application.Run(new GameForm());
         }
     }
 }
