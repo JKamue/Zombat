@@ -56,6 +56,7 @@
     <Compile Include="Game\KeyStatus.cs" />
     <Compile Include="Game\Map.cs" />
     <Compile Include="Game\Player.cs" />
+    <Compile Include="Game\Ray.cs" />
     <Compile Include="Graphics\BufferedScreenController.cs" />
     <Compile Include="Graphics\DirectBitmap.cs" />
     <Compile Include="Graphics\FrameRateCounter.cs" />
