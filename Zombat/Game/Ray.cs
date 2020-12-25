@@ -49,18 +49,13 @@ namespace Zombat.Game
             var nextHTouchX = xIntersect;
             var nextHTouchY = yIntersect;
 
-            if (!rayFacingDown)
-                nextHTouchY--;
-
             while (nextHTouchX >= 0 && nextHTouchX <= map.TotalWidth && nextHTouchY >= 0 && nextHTouchY <= map.TotalHeight)
             {
-                if (map.HasWall((float) nextHTouchX, (float) nextHTouchY))
+                if (map.HasWall((float) nextHTouchX, (float) nextHTouchY - (rayFacingDown ? 0 : 1)))
                 {
                     foundHorizontalWallHit = true;
                     wallHitXH = nextHTouchX;
                     wallHitYH = nextHTouchY;
-                    
-                    //g.DrawLine(new Pen(Color.Blue), x, y, (float) wallHitXH, (float) wallHitYH);
                     break;
                 }
                 
@@ -89,12 +84,9 @@ namespace Zombat.Game
             var nextVTouchX = xIntersect;
             var nextVTouchY = yIntersect;
 
-            if (!rayFacingRight)
-                nextVTouchX--;
-
             while (nextVTouchX >= 0 && nextVTouchX <= map.TotalWidth && nextVTouchY >= 0 && nextVTouchY <= map.TotalHeight)
             {
-                if (map.HasWall((float)nextVTouchX, (float)nextVTouchY))
+                if (map.HasWall((float)nextVTouchX - (rayFacingRight ? 0 : 1), (float)nextVTouchY))
                 {
                     foundVerticalWallHit = true;
                     wallHitXV = nextVTouchX;
