@@ -15,12 +15,11 @@ namespace Zombat.Game
             Spawn = spawn;
         }
 
-        public void Redraw(Panel p)
+        public void Redraw(System.Drawing.Graphics g, int width, int height)
         {
-            var g = p.CreateGraphics();
             g.Clear(Color.White);
-            var cWidth = p.Width / grid.GetLength(1);
-            var cHeight = p.Height / grid.GetLength(0);
+            var cWidth = width / grid.GetLength(1);
+            var cHeight = height / grid.GetLength(0);
             var brush = new SolidBrush(Color.Black);
             
             for (var y = 0; y < grid.GetLength(0); y++)

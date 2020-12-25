@@ -49,8 +49,10 @@ namespace Zombat
         {
             _bitmap.Clear();
             _game.Redraw();
-            //_bitmap.SetVLine(50, 20, 100, MakeArgb(255, 120, 250, 100));
-            _screenController.Redraw(_bitmap.Bitmap);
+            
+            var g = _screenController.StartDrawing();
+            g.DrawImage(_bitmap.Bitmap, new Point(0, 0));
+            _screenController.FinishDrawing();
             
             _frameCounter.FrameDrawn();
             Text = $@"Zombat - {_frameCounter.Framerate} fps";

@@ -36,10 +36,14 @@ namespace Zombat.Graphics
             _graphicsBuffer = _context.Allocate(_panelGraphics, _panel.DisplayRectangle);
         }
 
-        public void Redraw(Bitmap bitmap)
+        public System.Drawing.Graphics StartDrawing()
         {
             _graphicsBuffer.Graphics.Clear(_color);
-            _graphicsBuffer.Graphics.DrawImage(bitmap, new Point(0, 0));
+            return _graphicsBuffer.Graphics;
+        }
+
+        public void FinishDrawing()
+        {
             _graphicsBuffer.Render(_panelGraphics);
         }
     }
