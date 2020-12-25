@@ -12,10 +12,11 @@ namespace Zombat
         private readonly DirectBitmap _bitmap;
         private readonly FrameRateCounter _frameCounter;
         private readonly Timer _timer;
+        private readonly Game.Game _game;
         
         public GameForm()
         {
-            var map = new bool[,]
+            var mapObjects = new bool[,]
             {
                 { true , true , true , true , true , true , true , true , true , true , true , true  },
                 { true , false, false, false, false, false, false, false, false, true , false, true  },
@@ -26,16 +27,18 @@ namespace Zombat
                 { true , true , true , false, true , false, true , true , false, true , false, true  },
                 { true , false, false, false, true , false, true , true , false, false, false, true  },
                 { true , false, true , true , true , false, true , true , true , false, false, true  },
-                { true , false, false, false, false, false, false, false, false, false, false, true  }
+                { true , false, false, false, false, false, false, false, false, false, false, true  },
+                { true , true , true , true , true , true , true , true , true , true , true , true  }
             };
             var spawn = new Point(1, 1);
-            var game = new Game.Game(new Map(map, spawn));
+            var map = new Map(mapObjects, spawn);
 
             InitializeComponent();
             _screenController = new BufferedScreenController(pnlGame, Color.White);
             _bitmap = new DirectBitmap(pnlGame.Width, pnlGame.Height);
             _frameCounter = new FrameRateCounter();
-
+            _game = new Game.Game(map, _bitmap, pnlMap);
+            
             _timer = new Timer();
             _timer.Interval = 10;
             _timer.Tick += Redraw;
@@ -45,13 +48,12 @@ namespace Zombat
         private void Redraw(object sender, EventArgs e)
         {
             _bitmap.Clear();
-            _bitmap.SetVLine(50, 20, 100, MakeArgb(255, 120, 250, 100));
+            _game.Redraw();
+            //_bitmap.SetVLine(50, 20, 100, MakeArgb(255, 120, 250, 100));
             _screenController.Redraw(_bitmap.Bitmap);
             
             _frameCounter.FrameDrawn();
             Text = $@"Zombat - {_frameCounter.Framerate} fps";
         }
-
-        private static int MakeArgb(byte alpha, byte red, byte green, byte blue) => (int)((red << 16 | green << 8 | blue | alpha << 24) & uint.MaxValue);
     }
 }

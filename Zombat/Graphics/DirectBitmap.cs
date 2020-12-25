@@ -81,5 +81,7 @@ namespace Zombat.Graphics
             Bitmap.Dispose();
             BitsHandle.Free();
         }
+        
+        private static int MakeArgb(byte alpha, byte red, byte green, byte blue) => (int)((red << 16 | green << 8 | blue | alpha << 24) & uint.MaxValue);
     }
 }
