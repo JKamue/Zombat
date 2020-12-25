@@ -19,11 +19,14 @@ namespace Zombat.Game
             _bitmap = bitmap;
             _miniMap = miniMap;
             _bufferedScreen = new BufferedScreenController(miniMap, Color.White);
+            miniMap.Size = map.GetSize();
         }
 
         public void Redraw()
         {
-            _map.Redraw(_bufferedScreen.StartDrawing(), _miniMap.Width, _miniMap.Height);
+            var minimap = _bufferedScreen.StartDrawing();
+            _map.Redraw(minimap);
+            _player.Redraw(minimap);
             _bufferedScreen.FinishDrawing();
         }
     }

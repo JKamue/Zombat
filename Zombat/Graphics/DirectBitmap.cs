@@ -22,6 +22,7 @@ namespace Zombat.Graphics
         public int Height { get; private set; }
         public int Width { get; private set; }
 
+
         protected GCHandle BitsHandle { get; private set; }
 
         public DirectBitmap(int width, int height)

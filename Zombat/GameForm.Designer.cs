@@ -47,8 +47,9 @@ namespace Zombat
             // pnlMap
             // 
             this.pnlMap.Location = new System.Drawing.Point(3, 3);
+            this.pnlMap.Margin = new System.Windows.Forms.Padding(0);
             this.pnlMap.Name = "pnlMap";
-            this.pnlMap.Size = new System.Drawing.Size(224, 200);
+            this.pnlMap.Size = new System.Drawing.Size(208, 192);
             this.pnlMap.TabIndex = 0;
             // 
             // GameForm
