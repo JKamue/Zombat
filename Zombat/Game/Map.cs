@@ -11,15 +11,15 @@ namespace Zombat.Game
         public Point Spawn;
         public int BlockSize { get; private set; } = 16;
 
-        private readonly int _totalWidth;
-        private readonly int _totalHeight;
+        public readonly int TotalWidth;
+        public readonly int TotalHeight;
         
         public Map(bool[,] grid, Point spawn)
         {
             this.grid = grid;
             Spawn = spawn;
-            _totalWidth = grid.GetLength(1) * BlockSize;
-            _totalHeight = grid.GetLength(0) * BlockSize;
+            TotalWidth = grid.GetLength(1) * BlockSize;
+            TotalHeight = grid.GetLength(0) * BlockSize;
         }
 
         public void Redraw(System.Drawing.Graphics g)
@@ -48,7 +48,7 @@ namespace Zombat.Game
 
         public bool HasWall(float x, float y)
         {
-            if (x < 0 || x > _totalWidth || y < 0 || y > _totalHeight)
+            if (x < 0 || x > TotalWidth || y < 0 || y > TotalHeight)
                 return true;
 
 

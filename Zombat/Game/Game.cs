@@ -31,26 +31,37 @@ namespace Zombat.Game
             _rayNum = _bitmap.Bitmap.Width / _stripWidth;
         }
 
-        public void CastAllRays()
+        public void CastAllRays(System.Drawing.Graphics g)
         {
             _rays.Clear();
             var rayAngle = _player.Rotation - _fovAngle / 2;
             
-            for (var i = 0; i < _rayNum; i++)
+            for (var i = 0; i < 1; i++)
             {
                 _rays.Add(new Ray(_player.X, _player.Y, rayAngle));
                 rayAngle += _fovAngle / _rayNum;
             }
+            
+            _rays.ForEach(r => r.Cast(_map, g));
         }
         
         public void Redraw()
         {
             var minimap = _bufferedScreen.StartDrawing();
-            CastAllRays();
             _map.Redraw(minimap);
+            CastAllRays(minimap);
             _rays.ForEach(r => r.Redraw(minimap));
             _player.Redraw(minimap);
             _bufferedScreen.FinishDrawing();
+        }
+
+        public static double NormalizeAngle(double angle)
+        {
+            angle = angle % (2 * Math.PI);
+            if (angle < 0)
+                angle += 2 * Math.PI;
+
+            return angle;
         }
     }
 }
