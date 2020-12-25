@@ -12,10 +12,13 @@ namespace Zombat.Game
         private readonly float _moveSpeed = 0.5f;
         private readonly double _rotationSpeed = 5 * (Math.PI / 180);
         
-        public Player(PointF position)
+        private readonly Map _map;
+        
+        public Player(Map map)
         {
-            X = position.X;
-            Y = position.Y;
+            X = map.Spawn.X;
+            Y = map.Spawn.Y;
+            _map = map;
         }
 
         public void Redraw(System.Drawing.Graphics g)
@@ -37,10 +40,16 @@ namespace Zombat.Game
             rotation += KeyStatus.IsPressed(65) ? -1 : 0;
 
             Rotation += rotation * _rotationSpeed;
-            
+
             var step = direction * _moveSpeed;
-            X += (float) Math.Cos(Rotation) * step;
-            Y += (float) Math.Sin(Rotation) * step;
+            var newX = X + (float)Math.Cos(Rotation) * step;
+            var newY = Y + (float)Math.Sin(Rotation) * step;
+
+            if (!_map.HasWall(newX, newY))
+            {
+                X += (float) Math.Cos(Rotation) * step;
+                Y += (float) Math.Sin(Rotation) * step;
+            }
         }
     }
 }

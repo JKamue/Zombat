@@ -15,7 +15,7 @@ namespace Zombat.Game
         public Game(Map map, DirectBitmap bitmap, Panel miniMap)
         {
             _map = map;
-            _player = new Player(_map.Spawn);
+            _player = new Player(map);
             _bitmap = bitmap;
             _miniMap = miniMap;
             _bufferedScreen = new BufferedScreenController(miniMap, Color.White);
