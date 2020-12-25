@@ -43,6 +43,10 @@ namespace Zombat
             _timer.Interval = 10;
             _timer.Tick += Redraw;
             _timer.Start();
+
+            KeyPreview = true;
+            KeyDown += KeyStatus.KeyDownHandler;
+            KeyUp += KeyStatus.KeyUpHander;
         }
 
         private void Redraw(object sender, EventArgs e)

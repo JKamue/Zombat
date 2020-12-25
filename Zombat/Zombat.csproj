@@ -53,6 +53,7 @@
       <DependentUpon>GameForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Game\Game.cs" />
+    <Compile Include="Game\KeyStatus.cs" />
     <Compile Include="Game\Map.cs" />
     <Compile Include="Game\Player.cs" />
     <Compile Include="Graphics\BufferedScreenController.cs" />
