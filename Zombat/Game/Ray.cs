@@ -14,6 +14,7 @@ namespace Zombat.Game
         private double wallHitX;
         private double wallHitY;
         private double distance;
+        private bool wasHitVertical;
         private double angle;
         private bool rayFacingDown;
         private bool rayFacingRight;
@@ -31,15 +32,15 @@ namespace Zombat.Game
         public void Cast(Map map, System.Drawing.Graphics g)
         {
             var foundHorizontalWallHit = false;
-            var wallHitX = 0d;
-            var wallHitY = 0d;
+            var wallHitXH = 0d;
+            var wallHitYH = 0d;
             
             var yIntersect = Math.Floor(y / map.BlockSize) * map.BlockSize;
             yIntersect += rayFacingDown ? map.BlockSize : 0;
             
             var xIntersect = x + (yIntersect - y) / Math.Tan(angle);
 
-            var yStep = map.BlockSize;
+            var yStep = (double) map.BlockSize;
             yStep *= rayFacingDown ? 1 : -1;
             var xStep = map.BlockSize / Math.Tan(angle);
             xStep *= (!rayFacingRight && xStep > 0) ? -1 : 1;
@@ -56,23 +57,80 @@ namespace Zombat.Game
                 if (map.HasWall((float) nextHTouchX, (float) nextHTouchY))
                 {
                     foundHorizontalWallHit = true;
-                    wallHitX = nextHTouchX;
-                    wallHitY = nextHTouchY;
+                    wallHitXH = nextHTouchX;
+                    wallHitYH = nextHTouchY;
                     
-                    g.DrawLine(new Pen(Color.Blue), x, y, (float) wallHitX, (float) wallHitY);
+                    //g.DrawLine(new Pen(Color.Blue), x, y, (float) wallHitXH, (float) wallHitYH);
                     break;
                 }
-                else
-                {
-                    nextHTouchY += yStep;
-                    nextHTouchX += xStep;
-                }
+                
+                nextHTouchY += yStep;
+                nextHTouchX += xStep;
             }
+            
+            
+            
+            var foundVerticalWallHit = false;
+            var wallHitXV = 0d;
+            var wallHitYV = 0d;
+
+            xIntersect = Math.Floor(x / map.BlockSize) * map.BlockSize;
+            xIntersect += rayFacingRight ? map.BlockSize : 0;
+
+            yIntersect = y + (xIntersect - x) * Math.Tan(angle);
+
+            xStep = map.BlockSize;
+            xStep *= rayFacingRight ? 1 : -1;
+            
+            yStep = map.BlockSize * Math.Tan(angle);
+            yStep *= (!rayFacingDown && yStep > 0) ? -1 : 1;
+            yStep *= (rayFacingDown && yStep < 0) ? -1 : 1;
+
+            var nextVTouchX = xIntersect;
+            var nextVTouchY = yIntersect;
+
+            if (!rayFacingRight)
+                nextVTouchX--;
+
+            while (nextVTouchX >= 0 && nextVTouchX <= map.TotalWidth && nextVTouchY >= 0 && nextVTouchY <= map.TotalHeight)
+            {
+                if (map.HasWall((float)nextVTouchX, (float)nextVTouchY))
+                {
+                    foundVerticalWallHit = true;
+                    wallHitXV = nextVTouchX;
+                    wallHitYV = nextVTouchY;
+                    break;
+                }
+
+                nextVTouchY += yStep;
+                nextVTouchX += xStep;
+            }
+            
+            var hDist = (foundHorizontalWallHit) ? Distance(x,y, wallHitXH, wallHitYH) : int.MaxValue;
+            var vDist = (foundVerticalWallHit) ? Distance(x,y, wallHitXV, wallHitYV) : int.MaxValue;
+
+            if (hDist < vDist)
+            {
+                distance = hDist;
+                wallHitX = wallHitXH;
+                wallHitY = wallHitYH;
+                wasHitVertical = false;
+            }
+            else
+            {
+                distance = vDist;
+                wallHitX = wallHitXV;
+                wallHitY = wallHitYV;
+                wasHitVertical = true;
+            }
+         
+            g.DrawLine(new Pen(Color.Blue), x, y, (float) wallHitX, (float)wallHitY);
+            
         }
 
-        public void Redraw(System.Drawing.Graphics g)
+        private double Distance(double x1, double y1, double x2, double y2)
         {
-            g.DrawLine(new Pen(Color.FromArgb(10, 45, 196, 39)), x, y, x + (float)Math.Cos(angle) * 50, y + (float)Math.Sin(angle) * 50);
+            return Math.Sqrt(Math.Pow(x2 - x1, 2) + Math.Pow(y2 - y1, 2));
         }
     }
 }

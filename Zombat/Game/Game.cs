@@ -36,7 +36,7 @@ namespace Zombat.Game
             _rays.Clear();
             var rayAngle = _player.Rotation - _fovAngle / 2;
             
-            for (var i = 0; i < 1; i++)
+            for (var i = 0; i < _rayNum; i++)
             {
                 _rays.Add(new Ray(_player.X, _player.Y, rayAngle));
                 rayAngle += _fovAngle / _rayNum;
@@ -50,7 +50,6 @@ namespace Zombat.Game
             var minimap = _bufferedScreen.StartDrawing();
             _map.Redraw(minimap);
             CastAllRays(minimap);
-            _rays.ForEach(r => r.Redraw(minimap));
             _player.Redraw(minimap);
             _bufferedScreen.FinishDrawing();
         }
