@@ -62,7 +62,6 @@ namespace Zombat.Game
             var realDistance = ray.Distance * Math.Cos(ray.Angle - _player.Rotation);
             var distanceProjectionPlane = ((float) _bitmap.Width / 2) / Math.Tan(_fovAngle / 2);
             var wallStripHeight = (_map.BlockSize / realDistance) * distanceProjectionPlane;
-            var color = DirectBitmap.MakeArgb(255, 128, 128, 128);
 
             for (var n = 0; n < _stripWidth; n++)
             {
@@ -75,7 +74,8 @@ namespace Zombat.Game
                     length = _bitmap.Height;
                     start = 0;
                 }
-
+                var colorByte = Convert.ToByte(170f / (float) _bitmap.Height * length);
+                var color = DirectBitmap.MakeArgb(255, colorByte, colorByte, colorByte);
                 _bitmap.SetVLine(x, start, length, color);
             }
         }
