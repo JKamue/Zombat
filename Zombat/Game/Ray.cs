@@ -15,7 +15,7 @@ namespace Zombat.Game
         public double WallHitX;
         public double WallHitY;
         public double Distance;
-        private bool wasHitVertical;
+        public bool WasHitVertical;
         public double Angle;
         private readonly bool _rayFacingDown;
         private readonly bool _rayFacingRight;
@@ -108,14 +108,14 @@ namespace Zombat.Game
                 Distance = hDist;
                 WallHitX = wallHitXH;
                 WallHitY = wallHitYH;
-                wasHitVertical = false;
+                WasHitVertical = false;
             }
             else
             {
                 Distance = vDist;
                 WallHitX = wallHitXV;
                 WallHitY = wallHitYV;
-                wasHitVertical = true;
+                WasHitVertical = true;
             }
          
             g.DrawLine(new Pen(Color.Blue), _x, _y, (float) WallHitX, (float)WallHitY);

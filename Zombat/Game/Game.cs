@@ -14,7 +14,7 @@ namespace Zombat.Game
         private readonly Panel _miniMap;
         private readonly BufferedScreenController _bufferedScreen;
 
-        private readonly double _fovAngle = 60 * (Math.PI / 180);
+        private readonly double _fovAngle = 90 * (Math.PI / 180);
         private readonly double _stripWidth = 1;
         private readonly double _rayNum;
         private readonly List<Ray> _rays = new List<Ray>();
@@ -74,7 +74,7 @@ namespace Zombat.Game
                     length = _bitmap.Height;
                     start = 0;
                 }
-                var colorByte = Convert.ToByte(170f / (float) _bitmap.Height * length);
+                var colorByte = Convert.ToByte(ray.WasHitVertical ? 170 : 120);
                 var color = DirectBitmap.MakeArgb(255, colorByte, colorByte, colorByte);
                 _bitmap.SetVLine(x, start, length, color);
             }
