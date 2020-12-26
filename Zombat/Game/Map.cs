@@ -41,8 +41,8 @@ namespace Zombat.Game
         
         public Size GetSize()
         {
-            var width = grid.GetLength(1) * BlockSize + BlockSize;
-            var height = grid.GetLength(0) * BlockSize + BlockSize;
+            var width = grid.GetLength(1) * BlockSize;
+            var height = grid.GetLength(0) * BlockSize;
             return new Size(width, height);
         }
 

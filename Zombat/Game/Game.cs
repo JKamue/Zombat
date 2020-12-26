@@ -14,8 +14,8 @@ namespace Zombat.Game
         private readonly Panel _miniMap;
         private readonly BufferedScreenController _bufferedScreen;
 
-        private readonly double _fovAngle = 60 * (Math.PI / 180);
-        private readonly double _stripWidth = 2;
+        private readonly double _fovAngle = 100 * (Math.PI / 180);
+        private readonly double _stripWidth = 1;
         private readonly double _rayNum;
         private readonly List<Ray> _rays = new List<Ray>();
         
@@ -68,6 +68,13 @@ namespace Zombat.Game
                 var x = (int) Math.Round(i * _stripWidth - n);
                 var start = (int) Math.Round((float) _bitmap.Height / 2 - wallStripHeight / 2);
                 var length = (int) Math.Round(wallStripHeight);
+
+                if (length > _bitmap.Height)
+                {
+                    length = _bitmap.Height;
+                    start = 0;
+                }
+
                 _bitmap.SetVLine(x, start, length, color);
             }
         }
