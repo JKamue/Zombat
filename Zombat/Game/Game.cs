@@ -60,11 +60,16 @@ namespace Zombat.Game
         public void DrawRay(Ray ray, int i)
         {
             var distanceProjectionPlane = ((float) _bitmap.Width / 2) / Math.Tan(_fovAngle / 2);
-            var wallStripHeight = (_map.BlockSize / ray.Distance) * distanceProjectionPlane;
+            var wallStripHeight = (_map.BlockSize / ray.Distance)*distanceProjectionPlane;
             var color = DirectBitmap.MakeArgb(255, 128, 128, 128);
 
             for (var n = 0; n < _stripWidth; n++)
-                _bitmap.SetVLine((int)Math.Round(i * _stripWidth - n), (int) Math.Round((float) _bitmap.Height / 2 - wallStripHeight / 2), (int) Math.Round(wallStripHeight), color);
+            {
+                var x = (int) Math.Round(i * _stripWidth - n);
+                var start = (int) Math.Round((float) _bitmap.Height / 2 - wallStripHeight / 2);
+                var length = (int) Math.Round(wallStripHeight);
+                _bitmap.SetVLine(x, start, length, color);
+            }
         }
 
         public static double NormalizeAngle(double angle)

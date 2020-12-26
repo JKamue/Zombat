@@ -47,7 +47,7 @@ namespace Zombat.Graphics
 
         public void SetVLine(int x, int start, int length, int color)
         {
-            for (var y = start; y < length; y++)
+            for (var y = start; y < start + length; y++)
             {
                 if (y < Bitmap.Height && y > 0)
                     SetPixel(x,y,color);
