@@ -4,29 +4,31 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Zombat.Graphics;
 
 namespace Zombat.Game
 {
     class Ray
     {
-        private float x;
-        private float y;
-        private double wallHitX;
-        private double wallHitY;
-        private double distance;
+        private readonly float _x;
+        private readonly float _y;
+        public double WallHitX;
+        public double WallHitY;
+        public double Distance;
         private bool wasHitVertical;
-        private double angle;
-        private bool rayFacingDown;
-        private bool rayFacingRight;
+        private double _angle;
+        private readonly bool _rayFacingDown;
+        private readonly bool _rayFacingRight;
+        private Map _map;
 
         public Ray(float x, float y, double anglen)
         {
-            this.x = x;
-            this.y = y;
-            angle = Game.NormalizeAngle(anglen);
+            _x = x;
+            _y = y;
+            _angle = Game.NormalizeAngle(anglen);
 
-            rayFacingDown = angle > 0 && angle < Math.PI;
-            rayFacingRight = angle < Math.PI / 2 || angle > Math.PI * 3 / 2;
+            _rayFacingDown = _angle > 0 && _angle < Math.PI;
+            _rayFacingRight = _angle < Math.PI / 2 || _angle > Math.PI * 3 / 2;
         }
 
         public void Cast(Map map, System.Drawing.Graphics g)
@@ -35,23 +37,23 @@ namespace Zombat.Game
             var wallHitXH = 0d;
             var wallHitYH = 0d;
             
-            var yIntersect = Math.Floor(y / map.BlockSize) * map.BlockSize;
-            yIntersect += rayFacingDown ? map.BlockSize : 0;
+            var yIntersect = Math.Floor(_y / map.BlockSize) * map.BlockSize;
+            yIntersect += _rayFacingDown ? map.BlockSize : 0;
             
-            var xIntersect = x + (yIntersect - y) / Math.Tan(angle);
+            var xIntersect = _x + (yIntersect - _y) / Math.Tan(_angle);
 
             var yStep = (double) map.BlockSize;
-            yStep *= rayFacingDown ? 1 : -1;
-            var xStep = map.BlockSize / Math.Tan(angle);
-            xStep *= (!rayFacingRight && xStep > 0) ? -1 : 1;
-            xStep *= (rayFacingRight && xStep < 0) ? -1 : 1;
+            yStep *= _rayFacingDown ? 1 : -1;
+            var xStep = map.BlockSize / Math.Tan(_angle);
+            xStep *= (!_rayFacingRight && xStep > 0) ? -1 : 1;
+            xStep *= (_rayFacingRight && xStep < 0) ? -1 : 1;
 
             var nextHTouchX = xIntersect;
             var nextHTouchY = yIntersect;
 
             while (nextHTouchX >= 0 && nextHTouchX <= map.TotalWidth && nextHTouchY >= 0 && nextHTouchY <= map.TotalHeight)
             {
-                if (map.HasWall((float) nextHTouchX, (float) nextHTouchY - (rayFacingDown ? 0 : 1)))
+                if (map.HasWall((float) nextHTouchX, (float) nextHTouchY - (_rayFacingDown ? 0 : 1)))
                 {
                     foundHorizontalWallHit = true;
                     wallHitXH = nextHTouchX;
@@ -69,24 +71,24 @@ namespace Zombat.Game
             var wallHitXV = 0d;
             var wallHitYV = 0d;
 
-            xIntersect = Math.Floor(x / map.BlockSize) * map.BlockSize;
-            xIntersect += rayFacingRight ? map.BlockSize : 0;
+            xIntersect = Math.Floor(_x / map.BlockSize) * map.BlockSize;
+            xIntersect += _rayFacingRight ? map.BlockSize : 0;
 
-            yIntersect = y + (xIntersect - x) * Math.Tan(angle);
+            yIntersect = _y + (xIntersect - _x) * Math.Tan(_angle);
 
             xStep = map.BlockSize;
-            xStep *= rayFacingRight ? 1 : -1;
+            xStep *= _rayFacingRight ? 1 : -1;
             
-            yStep = map.BlockSize * Math.Tan(angle);
-            yStep *= (!rayFacingDown && yStep > 0) ? -1 : 1;
-            yStep *= (rayFacingDown && yStep < 0) ? -1 : 1;
+            yStep = map.BlockSize * Math.Tan(_angle);
+            yStep *= (!_rayFacingDown && yStep > 0) ? -1 : 1;
+            yStep *= (_rayFacingDown && yStep < 0) ? -1 : 1;
 
             var nextVTouchX = xIntersect;
             var nextVTouchY = yIntersect;
 
             while (nextVTouchX >= 0 && nextVTouchX <= map.TotalWidth && nextVTouchY >= 0 && nextVTouchY <= map.TotalHeight)
             {
-                if (map.HasWall((float)nextVTouchX - (rayFacingRight ? 0 : 1), (float)nextVTouchY))
+                if (map.HasWall((float)nextVTouchX - (_rayFacingRight ? 0 : 1), (float)nextVTouchY))
                 {
                     foundVerticalWallHit = true;
                     wallHitXV = nextVTouchX;
@@ -98,29 +100,28 @@ namespace Zombat.Game
                 nextVTouchX += xStep;
             }
             
-            var hDist = (foundHorizontalWallHit) ? Distance(x,y, wallHitXH, wallHitYH) : int.MaxValue;
-            var vDist = (foundVerticalWallHit) ? Distance(x,y, wallHitXV, wallHitYV) : int.MaxValue;
+            var hDist = (foundHorizontalWallHit) ? CalcDistance(_x,_y, wallHitXH, wallHitYH) : int.MaxValue;
+            var vDist = (foundVerticalWallHit) ? CalcDistance(_x,_y, wallHitXV, wallHitYV) : int.MaxValue;
 
             if (hDist < vDist)
             {
-                distance = hDist;
-                wallHitX = wallHitXH;
-                wallHitY = wallHitYH;
+                Distance = hDist;
+                WallHitX = wallHitXH;
+                WallHitY = wallHitYH;
                 wasHitVertical = false;
             }
             else
             {
-                distance = vDist;
-                wallHitX = wallHitXV;
-                wallHitY = wallHitYV;
+                Distance = vDist;
+                WallHitX = wallHitXV;
+                WallHitY = wallHitYV;
                 wasHitVertical = true;
             }
          
-            g.DrawLine(new Pen(Color.Blue), x, y, (float) wallHitX, (float)wallHitY);
-            
+            g.DrawLine(new Pen(Color.Blue), _x, _y, (float) WallHitX, (float)WallHitY);
         }
-
-        private double Distance(double x1, double y1, double x2, double y2)
+        
+        private double CalcDistance(double x1, double y1, double x2, double y2)
         {
             return Math.Sqrt(Math.Pow(x2 - x1, 2) + Math.Pow(y2 - y1, 2));
         }

@@ -49,7 +49,8 @@ namespace Zombat.Graphics
         {
             for (var y = start; y < length; y++)
             {
-                SetPixel(x,y,color);
+                if (y < Bitmap.Height && y > 0)
+                    SetPixel(x,y,color);
             }
         }
         
