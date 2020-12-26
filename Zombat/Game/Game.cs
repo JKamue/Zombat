@@ -14,7 +14,7 @@ namespace Zombat.Game
         private readonly Panel _miniMap;
         private readonly BufferedScreenController _bufferedScreen;
 
-        private readonly double _fovAngle = 100 * (Math.PI / 180);
+        private readonly double _fovAngle = 60 * (Math.PI / 180);
         private readonly double _stripWidth = 1;
         private readonly double _rayNum;
         private readonly List<Ray> _rays = new List<Ray>();
@@ -59,8 +59,9 @@ namespace Zombat.Game
         
         public void DrawRay(Ray ray, int i)
         {
+            var realDistance = ray.Distance * Math.Cos(ray.Angle - _player.Rotation);
             var distanceProjectionPlane = ((float) _bitmap.Width / 2) / Math.Tan(_fovAngle / 2);
-            var wallStripHeight = (_map.BlockSize / ray.Distance)*distanceProjectionPlane;
+            var wallStripHeight = (_map.BlockSize / realDistance) * distanceProjectionPlane;
             var color = DirectBitmap.MakeArgb(255, 128, 128, 128);
 
             for (var n = 0; n < _stripWidth; n++)
