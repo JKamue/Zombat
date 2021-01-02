@@ -74,8 +74,8 @@ namespace Zombat.Game
                     length = _bitmap.Height;
                     start = 0;
                 }
-                var colorByte = Convert.ToByte(ray.WasHitVertical ? 170 : 120);
-                var color = DirectBitmap.MakeArgb(255, colorByte, colorByte, colorByte);
+
+                var color= _map.GetColor(ray.Color, ray.WasHitVertical);           
                 _bitmap.SetVLine(x, start, length, color);
             }
         }

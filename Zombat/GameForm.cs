@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 using Zombat.Game;
@@ -19,19 +20,27 @@ namespace Zombat
             var mapObjects = new int[,]
             {
                 { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
-                { 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1 },
-                { 1, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1 },
-                { 1, 1, 1, 1, 0, 0, 0, 1, 0, 1, 0, 1 },
-                { 1, 0, 0, 0, 0, 0, 1, 1, 0, 1, 0, 1 },
-                { 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1 },
-                { 1, 1, 1, 0, 1, 0, 1, 1, 0, 1, 0, 1 },
-                { 1, 0, 0, 0, 1, 0, 1, 1, 0, 0, 0, 1 },
-                { 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 0, 1 },
+                { 1, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 1 },
+                { 1, 0, 0, 0, 0, 1, 0, 0, 0, 3, 0, 1 },
+                { 1, 3, 3, 3, 0, 0, 0, 2, 0, 3, 0, 1 },
+                { 1, 0, 0, 0, 0, 0, 2, 2, 0, 3, 0, 1 },
+                { 1, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 1 },
+                { 1, 2, 2, 0, 3, 0, 2, 2, 0, 3, 0, 1 },
+                { 1, 0, 0, 0, 3, 0, 2, 2, 0, 0, 0, 1 },
+                { 1, 0, 3, 3, 3, 0, 2, 2, 2, 0, 0, 1 },
                 { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
                 { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 }
             };
+            var colors = new List<int>
+            {
+                0, -6850029, -16162153, -16148713
+            };
+            var vColors = new List<int>
+            {
+                0, -4218309, -12875073, -12861633
+            };
             var spawn = new Point(24, 24);
-            var map = new Map(mapObjects, spawn);
+            var map = new Map(mapObjects, spawn, colors, colors);
 
             InitializeComponent();
             _screenController = new BufferedScreenController(pnlGame, Color.White);

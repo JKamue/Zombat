@@ -16,6 +16,7 @@ namespace Zombat.Game
         public double WallHitY;
         public double Distance;
         public bool WasHitVertical;
+        public int Color;
         public double Angle;
         private readonly bool _rayFacingDown;
         private readonly bool _rayFacingRight;
@@ -36,6 +37,7 @@ namespace Zombat.Game
             var foundHorizontalWallHit = false;
             var wallHitXH = 0d;
             var wallHitYH = 0d;
+            var colorH = 0;
             
             var yIntersect = Math.Floor(_y / map.BlockSize) * map.BlockSize;
             yIntersect += _rayFacingDown ? map.BlockSize : 0;
@@ -53,7 +55,8 @@ namespace Zombat.Game
 
             while (nextHTouchX >= 0 && nextHTouchX <= map.TotalWidth && nextHTouchY >= 0 && nextHTouchY <= map.TotalHeight)
             {
-                if (map.HasWall((float) nextHTouchX, (float) nextHTouchY - (_rayFacingDown ? 0 : 1)))
+                colorH = map.HasWall((float) nextHTouchX, (float) nextHTouchY - (_rayFacingDown ? 0 : 1));
+                if (colorH != 0)
                 {
                     foundHorizontalWallHit = true;
                     wallHitXH = nextHTouchX;
@@ -70,6 +73,7 @@ namespace Zombat.Game
             var foundVerticalWallHit = false;
             var wallHitXV = 0d;
             var wallHitYV = 0d;
+            var colorV = 0;
 
             xIntersect = Math.Floor(_x / map.BlockSize) * map.BlockSize;
             xIntersect += _rayFacingRight ? map.BlockSize : 0;
@@ -88,7 +92,8 @@ namespace Zombat.Game
 
             while (nextVTouchX >= 0 && nextVTouchX <= map.TotalWidth && nextVTouchY >= 0 && nextVTouchY <= map.TotalHeight)
             {
-                if (map.HasWall((float)nextVTouchX - (_rayFacingRight ? 0 : 1), (float)nextVTouchY))
+                colorV = map.HasWall((float) nextVTouchX - (_rayFacingRight ? 0 : 1), (float) nextVTouchY);
+                if (colorV != 0)
                 {
                     foundVerticalWallHit = true;
                     wallHitXV = nextVTouchX;
@@ -109,6 +114,7 @@ namespace Zombat.Game
                 WallHitX = wallHitXH;
                 WallHitY = wallHitYH;
                 WasHitVertical = false;
+                Color = colorH;
             }
             else
             {
@@ -116,9 +122,10 @@ namespace Zombat.Game
                 WallHitX = wallHitXV;
                 WallHitY = wallHitYV;
                 WasHitVertical = true;
+                Color = colorV;
             }
          
-            g.DrawLine(new Pen(Color.Blue), _x, _y, (float) WallHitX, (float)WallHitY);
+            g.DrawLine(new Pen(System.Drawing.Color.Blue), _x, _y, (float) WallHitX, (float)WallHitY);
         }
         
         private double CalcDistance(double x1, double y1, double x2, double y2)

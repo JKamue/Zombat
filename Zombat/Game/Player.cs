@@ -45,7 +45,7 @@ namespace Zombat.Game
             var newX = X + (float)Math.Cos(Rotation) * step;
             var newY = Y + (float)Math.Sin(Rotation) * step;
 
-            if (!_map.HasWall(newX, newY))
+            if (_map.HasWall(newX, newY) == 0)
             {
                 X += (float) Math.Cos(Rotation) * step;
                 Y += (float) Math.Sin(Rotation) * step;
