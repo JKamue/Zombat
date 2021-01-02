@@ -38,7 +38,7 @@ namespace Zombat.Game
 
         public bool IsWall(int x, int y)
         {
-            return grid[y, x] == 0;
+            return grid[y, x] != 0;
         }
         
         public Size GetSize()
