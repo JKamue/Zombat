@@ -16,19 +16,19 @@ namespace Zombat
         
         public GameForm()
         {
-            var mapObjects = new bool[,]
+            var mapObjects = new int[,]
             {
-                { true , true , true , true , true , true , true , true , true , true , true , true  },
-                { true , false, false, false, false, false, false, false, false, true , false, true  },
-                { true , false, false, false, false, true , false, false, false, true , false, true  },
-                { true , true , true , true , false, false, false, true , false, true , false, true  },
-                { true , false, false, false, false, false, true , true , false, true , false, true  },
-                { true , false, false, false, false, false, false, false, false, true , false, true  },
-                { true , true , true , false, true , false, true , true , false, true , false, true  },
-                { true , false, false, false, true , false, true , true , false, false, false, true  },
-                { true , false, true , true , true , false, true , true , true , false, false, true  },
-                { true , false, false, false, false, false, false, false, false, false, false, true  },
-                { true , true , true , true , true , true , true , true , true , true , true , true  }
+                { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+                { 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0 },
+                { 0, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 0 },
+                { 0, 0, 0, 0, 1, 1, 1, 0, 1, 0, 1, 0 },
+                { 0, 1, 1, 1, 1, 1, 0, 0, 1, 0, 1, 0 },
+                { 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0 },
+                { 0, 0, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0 },
+                { 0, 1, 1, 1, 0, 1, 0, 0, 1, 1, 1, 0 },
+                { 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0 },
+                { 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0 },
+                { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }
             };
             var spawn = new Point(24, 24);
             var map = new Map(mapObjects, spawn);

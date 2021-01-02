@@ -7,14 +7,14 @@ namespace Zombat.Game
 {
     class Map
     {
-        private bool[,] grid;
+        private int[,] grid;
         public Point Spawn;
         public int BlockSize { get; private set; } = 16;
 
         public readonly int TotalWidth;
         public readonly int TotalHeight;
         
-        public Map(bool[,] grid, Point spawn)
+        public Map(int[,] grid, Point spawn)
         {
             this.grid = grid;
             Spawn = spawn;
@@ -30,13 +30,15 @@ namespace Zombat.Game
             {
                 for (var x = 0; x < grid.GetLength(1); x++)
                 {
-                    if (grid[y, x])
-                    {
+                    if (IsWall(x, y))
                         g.FillRectangle(brush, x * BlockSize, y * BlockSize, BlockSize, BlockSize);
-                        var tes3t = x * BlockSize;
-                    }
                 }
             }
+        }
+
+        public bool IsWall(int x, int y)
+        {
+            return grid[y, x] == 0;
         }
         
         public Size GetSize()
@@ -54,7 +56,7 @@ namespace Zombat.Game
 
             var mapGridIndexX = (int) Math.Round(Math.Floor(x / BlockSize));
             var mapGridIndexY = (int) Math.Round(Math.Floor(y / BlockSize));
-            return grid[mapGridIndexY, mapGridIndexX];
+            return IsWall(mapGridIndexX, mapGridIndexY);
         }
     }
 }
