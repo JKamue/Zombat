@@ -18,6 +18,7 @@ namespace Zombat.Graphics
     {
         public Bitmap Bitmap { get; private set; }
         public Int32[] Bits { get; private set; }
+        public Int32[] BackgroundBits { get; private set; }
         public bool Disposed { get; private set; }
         public int Height { get; private set; }
         public int Width { get; private set; }
@@ -30,8 +31,18 @@ namespace Zombat.Graphics
             Width = width;
             Height = height;
             Bits = new Int32[width * height];
+            BackgroundBits = new Int32[width * height];
             BitsHandle = GCHandle.Alloc(Bits, GCHandleType.Pinned);
             Bitmap = new Bitmap(width, height, width * 4, PixelFormat.Format32bppPArgb, BitsHandle.AddrOfPinnedObject());
+        }
+
+        public void GenerateBackgroundBits(int bottom, int top)
+        {
+            for (var x = 0; x < (int) Math.Round(BackgroundBits.Length / 2f); x++)
+                BackgroundBits[x] = top;
+            
+            for (var x = (int) Math.Round(BackgroundBits.Length / 2f); x < BackgroundBits.Length; x++)
+                BackgroundBits[x] = bottom;
         }
 
         public void SetPixel(int x, int y, Color color)
@@ -70,7 +81,7 @@ namespace Zombat.Graphics
 
         public void Clear()
         {
-            Bits = new Int32[Width * Height];
+            Bits = (int[]) BackgroundBits.Clone();
             BitsHandle.Free();
             BitsHandle = GCHandle.Alloc(Bits, GCHandleType.Pinned);
             Bitmap = new Bitmap(Width, Height, Width * 4, PixelFormat.Format32bppPArgb, BitsHandle.AddrOfPinnedObject());

@@ -40,11 +40,12 @@ namespace Zombat
                 0, -4218309, -12875073, -12861633
             };
             var spawn = new Point(24, 24);
-            var map = new Map(mapObjects, spawn, colors, colors);
+            var map = new Map(mapObjects, spawn, colors, vColors);
 
             InitializeComponent();
             _screenController = new BufferedScreenController(pnlGame, Color.White);
             _bitmap = new DirectBitmap(pnlGame.Width, pnlGame.Height);
+            _bitmap.GenerateBackgroundBits(-13747904, -2103606);
             _frameCounter = new FrameRateCounter();
             _game = new Game.Game(map, _bitmap, pnlMap);
             
